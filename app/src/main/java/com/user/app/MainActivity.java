@@ -24,30 +24,17 @@ import androidx.webkit.WebViewAssetLoader.AssetsPathHandler;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 
 import android.widget.RelativeLayout;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.OnUserEarnedRewardListener;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.rewarded.RewardItem;
-import com.google.android.gms.ads.rewarded.RewardedAd;
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 
 public class MainActivity extends AppCompatActivity {
     // variables para manejar la subida de archivos
     private final static int FILECHOOSER_RESULTCODE = 1;
     private ValueCallback<Uri[]> mUploadMessage;
-    private RewardedAd rewardedAd;
     private final String TAG = "MainActivity";
-    private AdView mAdView;
     private Context context;
 
     @Override
@@ -55,53 +42,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
-            new AppOpenManager(this.getApplication(), "ca-app-pub-3940256099942544/3419835294", "portrait");
-        } else  {
-            new AppOpenManager(this.getApplication(), "ca-app-pub-3940256099942544/3419835294", "landscape");
-        }
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         
 
         
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(LoadAdError adError) {
-                // Code to be executed when an ad request fails.
-                mAdView.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdClicked() {
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
 
         final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
             // .setDomain("api.example.com")
@@ -138,28 +82,8 @@ public class MainActivity extends AppCompatActivity {
         // establecemos el cliente chrome para seleccionar archivos
         webview.setWebChromeClient(new MyWebChromeClient());
 
-        // Setelah iklan berhasil dimuat
-        JavaScriptInterface jsInterface = new JavaScriptInterface(this);
 
-       RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
-       new AdRequest.Builder().build(), new RewardedAdLoadCallback() {
-           @Override
-           public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-               // Handle the error.
-               Log.d(TAG, loadAdError.toString());
-               rewardedAd = null;
-               jsInterface.setRewardedAd(rewardedAd);
-           }
 
-           @Override
-           public void onAdLoaded(@NonNull RewardedAd ad) {
-               rewardedAd = ad;
-               jsInterface.setRewardedAd(rewardedAd);
-               Log.d(TAG, "Ad was loaded.");
-           }
-       });
-
-        webview.addJavascriptInterface(jsInterface, "Andro");
 
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);

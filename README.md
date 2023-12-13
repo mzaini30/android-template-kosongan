@@ -1,54 +1,34 @@
-# Android Vue
+# Template Android Kosongan
 
-Bring Vue SPA to Android app.
 
-## Have to Modified
+## Yang Dimodifikasi
 
-1. Vue app
-
-   ```
-   app/src/main/assets/
-   ```
-
-2. Title
+1. File-file HTML
 
    ```
-   app/src/main/res/values/strings.xml
+   ./app/src/main/assets/
    ```
 
-3. Admob banner `(test: ca-app-pub-3940256099942544/6300978111)`
+   Kalau pakai absolute path, bukan `/` tapi `/assets/`.
+
+2. Judul
 
    ```
-   app/src/main/res/layout/activity_main.xml
+   ./app/src/main/res/values/strings.xml
    ```
 
-4. Admob application id `(test: ca-app-pub-3940256099942544~3347511713)`
+3. Versi
 
    ```
-   app/src/main/AndroidManifest.xml
+   ./app/build.gradle
    ```
 
-5. Start.io Ads (dimatikan)
+4. ID Paket
 
    ```
-   app/src/main/AndroidManifest.xml
-   app/src/main/java/com/user/app/MainActivity.java
+   ./app/build.gradle
+   ./app/src/main/AndroidManifest.xml
+   ./app/src/main/java/com/user/app/
+   ./app/src/main/java/com/user/app/MainActivity.java
    ```
-
-6. Version
-
-   ```
-   app/build.gradle
-   ```
-
-7. Package id
-
-   ```
-   app/build.gradle
-   app/src/main/AndroidManifest.xml
-   app/src/main/java/com/user/app/
-   app/src/main/java/com/user/app/MainActivity.java
-   ```
-
-8. Keystore
-9. Logo
+5. Logo
